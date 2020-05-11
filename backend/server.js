@@ -1,0 +1,32 @@
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 5000
+const axios = require('axios')
+
+// console.log that your server is up and running
+app.listen(port, () => console.log(`Listening on port ${port}`));
+
+// create a GET route
+
+
+app.get('/sprint_checker', async (req, res) => {
+
+  const sprintImei = req.query.imei;
+  const responseSprint = await axios.get(`https://www.sprint.com/api/digital/byod/v2/foreign-device/${sprintImei}?numberOfSims=1&brandCode=SPR`,
+    {
+      "method": "GET",
+      "headers": {
+        "cookie": "segment_user=CP; fp_token_7c6a6574-f011-4c9a-abdd-9894a102ccef=10NYV49bZj4l4Y/xAQ5IVYRaz8JHlQFYO1gLvB/eV3Y=; s_ecid=MCMID%7C77360608069879133533998939679115876513; TLTUID=5DB41A429182109103DB831B13C6DAAC; DYN_USER_ID=12299530348; DYN_USER_CONFIRM=93fce88dba182e8842a2d1fbe6bdba4b; s_fid=121BCAEDAFD3720E-3FAD4238B46F39F1; CMP_PHN={%22category%22:%22default%22%2C%22param%22:%22%22%2C%22phone%22:%22866-275-1411%22%2C%22priority%22:%220%22%2C%22referrer%22:%22%22%2C%22spphone%22:%22%22}; _ga=GA1.2.450183763.1588979970; _gid=GA1.2.931174091.1588979970; aam_cookie=aam_test%3D8897295; aam_uuid=71453885595952908764542602788536697044; kf_ch=8f92864a-41ce-4b28-163d-8aeb87672f8b; _scid=dc902638-2f71-4285-8df7-d1530129656a; _gcl_au=1.1.1875333077.1588979973; _sctr=1|1588910400000; zipcode=33433|MIADEL561|KN; lc=33060:26.2349/-80.1201; lc_zip=33060; at_check=true; ep=no; Apache=23.209.38.14.1589082482602472; TLTSID=0C808D50927110922EDFB110B7D94898; USERSESSIONCOOKIE=usersessoincookie; AMCVS_5E6C123F5245B32D0A490D45%40AdobeOrg=1; p_attr=CSHS%3Dnull%2CCSHP%3Dnull%2CUST%3DRAN%2CSHCSA%3DMIADEL561%2CPSHP%3Dnull%2CSHZ%3D33433; s_cc=true; safloggingsession=61efe9-c21-aae-614-aa1d18d90; bm_sz=65EA2E1325FC140F6F739905EA687A7A~YAAQxfRUuLtQ079xAQAALChbAQdAbqo/ayZr/xAGKSza8H4VIPyGQ1uOSS6UknyaQXwSay1C00GtkdNHXfGR4h26wvJZbIUBVus5rUuxy1xIxhWMPxFu1FdTC/Wpu9XvPHDUJXk9pYdrikyGkEhOI53EXP4e3UKBdRsr+qwO+/lbgvRGVPTIA6sHpQAGJg2p; safd=0; akacd_HP_Base=1589212576~rv=34~id=206f2d99164f997ba6e058b6105a146a; JSESSIONIDHJS=piIW1jW4kJoJJY89GJaA5KW4.hjs-production-mysprint31-sprint.com; JSESSIONIDSHOP=tYRvaWt8IqR0CCD1dX-LgH7a.t8s-production-shop10-sprint.com; ak_bmsc=FAD404D7A7248A66A0C5CD536243945EB854F4BCF0370000E0CCB85E5C5FCC6E~plRYqv58TUSY0/Uc/DZ1hZphNnj0pSDWnTjGh/KLDVo2dePeON/qJ/WPp99E7nYR+zIcqvwvhh9wFMqxocoMoga0ML7PHzJ/FyPtyqkwbgs+fAa3O5CA/ASdLkt79gB2YRoM8ZzaTAWAjiW9X/LesUkSUzAfInWg8j3GYYpU8qDjGC1fKZJnpmtHA/no81EgDeuJWYW2EaJAuGbrnvfvCooS1wW8Iq+rLKyJNOTaPTVGizv73Vl+aqkYOWslGYu1fB2N+KkuA/u7KuxfVCTtEGdA==; AMCV_5E6C123F5245B32D0A490D45%40AdobeOrg=-408604571%7CMCIDTS%7C18393%7CMCMID%7C77360608069879133533998939679115876513%7CMCAAMLH-1589774178%7C7%7CMCAAMB-1589774179%7CRKhpRz8krg2tLO6pguXWp5olkAcUniQYPHaMWWgdJ3xzPWQmdj0y%7CMCOPTOUT-1589176579s%7CNONE%7CMCAID%7CNONE%7CvVersion%7C4.6.0; AAMC_sprintscs_0=REGION%7C7%7CAMSYNCSOP%7C%7CAMSYNCS%7C; _abck=978E1A81E06734A88AA55A2E0568B37F~0~YAAQvPRUuEzBssxxAQAACMn/AQMdWgoEkCX1GtOSjRVMDghHNWTh/RTEZB/6znN9EqrJMhYDve8luyfEbSDIXjZoOwanVZBGu5DyETPs0bcok7Pq+6qo+rwTw6yYfp5WIT3ghb1nlB7kGYx2VUUdf99DfXD7woFICnSRpWCj3iO+qaf4ckEVD3iWHqZw6k2LDesGRCczlSo76J6nT9dOZT4fi+vErxDaZZ44txafx/0GCdTcpu027Vg0k69VGKe2dwF1YhfDis+5fjT7V/32Z0DhJbseKf9WIH/ooBC4gwhucL/skSHiCUrSB85Z5Xoof1yZsnQ6cg==~-1~1-MwYuyYZDNH-10000-100-3000-1||||~-1; _uetsid=_uetf68e4ee6-1052-add2-98b8-f479a39445a6; mbox=PC#bcdb6e6691ee4fd49c037c02000c1f33.17_0#1652224771|session#3b80ab82d5ea46afb4bde7d0600126e3#1589173659; AWSELB=8155D949065ECE3A6E4D5B69D8C35BBF2F6EDF7E100C5BC4F86A932A6AF60C36BF6AA8957933F5B23497DE4AC79A51FD0ABCAFFB51DE35F65871DE2F9FA7002970B7A15D0D; AWSELBCORS=8155D949065ECE3A6E4D5B69D8C35BBF2F6EDF7E100C5BC4F86A932A6AF60C36BF6AA8957933F5B23497DE4AC79A51FD0ABCAFFB51DE35F65871DE2F9FA7002970B7A15D0D; TS01621a2d=017ea1d44c148214fbf552aa409d7d2a1fbc74f58d31dc8fc9c84414235ec44cf2515ce9863350ebfec2ef2705d6034c5b8dd3565f; naf=logInStatus~false%7Cpv_pageName~eStore%20%3A%20Device%20%3A%20Bring%20Your%20Own%20Device%20-%20Check%20Compatibility%7CprofileId~12299530348%7Catg_Registrationdate~1588979969234%7Catg_currentAccountUserRole~loggedInPre%7Catg_UserState~RAN%7Catg_totalCount~0%7ChatTab~Consumer; _gat=1; QSI_HistorySession=https%3A%2F%2Fwww.sprint.com%2Fen%2Fshop%2Fbring-your-phone-to-sprint.html%3Fflow%3DBYOD~1589171799951; bm_sv=45FE159EE1D8566771DFC1BD2FFA992B~UVz1Hhr+quA/a8iGeVSrz5Ntq3nB7KIKCgQOxlxLZehlL1SIwLKy7Cw5E71jcwnA4Z3aTDDKtemw8LTmScr1oS4EcjJUP+XywPZJ9JR8169Zkr/i2lQheMRg5jxXei/MYF6sNlM9aCbUO6AUMJbSNfuwQtfQDBhzkhUf28rEVGQ=; s_sq=sprinttotalprod%3D%2526pid%253DeStore%252520%25253A%252520Device%252520%25253A%252520Bring%252520Your%252520Own%252520Device%252520-%252520Check%252520Compatibility%2526pidt%253D1%2526oid%253DContinue%2526oidt%253D3%2526ot%253DSUBMIT",
+        "applicationId": "ECMW",
+        "applicationUserId": "ECMW",
+        "enterpriseMessageId": "ECMW897955562",
+        "messageDateTimeStamp": "2020-05-11T03:56:37.097Z",
+        "messageId": "897955562"
+      }
+    })
+  const sprintInfo = {
+    model: responseSprint.data.byodDetails.serialNo
+  }
+  console.log(sprintInfo)
+  return responseSprint
+})
